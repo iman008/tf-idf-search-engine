@@ -1,0 +1,4 @@
+src/.vscode/
+src/unique_words.txt
+data/
+src/__pycache__
