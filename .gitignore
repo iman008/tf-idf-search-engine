@@ -3,3 +3,5 @@ data/
 src/__pycache__
 src/*.txt
 *.txt
+
+.vscode/
