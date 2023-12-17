@@ -27,6 +27,8 @@ for i in range(0,50001):
         idf=math.log10(50001/len(word_doc_dict[x]))
         tfidf_per_doc[i][x]=tf*idf
         sum_squared+=(tf*idf)**2
+    s=tfidf_per_doc[i]
+    tfidf_per_doc[i]=dict(sorted(s.items(),key=lambda t:t[1],reverse=True) )
     tfidf_norm_per_doc[i]=math.sqrt(sum_squared)
 
 
