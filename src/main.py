@@ -21,8 +21,8 @@ overal_time = 0
 
 for testcase in testcases:
     cnt += 1
-    if cnt > 500:
-        break
+    # if cnt > 500:
+    #     break
     print("-------------------------------------------")
     print("searching in doc number ", testcase["document_id"])
     start = time()
