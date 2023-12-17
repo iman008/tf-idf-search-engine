@@ -30,7 +30,7 @@
 #         matching_word = find_best_matching_word(token, tfidf_per_doc[str(doc_id)])
 #         similarity = SequenceMatcher(None, token, matching_word).ratio()
 
-#         if similarity > 0.9:
+#         if similarity > 0.8:
 #             tf = count / len(tokens) if len(tokens) > 0 else 0
 #             idf = math.log10(50001 / len(word_doc_dict[matching_word]))
 
@@ -111,6 +111,6 @@ def search(query_text,doclist):
     res.sort(key=lambda x:x[1],reverse=True)
     end_time=time()
     duration_ms = (end_time - start_time) * 1000
-    print(f"Time took to search: {duration_ms:.2f} ms")
+    print(f"Time took to search: {duration_ms:.5f} ms")
     return res
 

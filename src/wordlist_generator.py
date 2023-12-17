@@ -24,4 +24,5 @@ def generate_wordlist():
         t.write(json.dumps(word_doc_dict)) 
 
 
+
 generate_wordlist()
