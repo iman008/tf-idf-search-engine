@@ -3,6 +3,6 @@ data/
 src/__pycache__
 src/*.txt
 *.txt
-
+src/FileSearch/__pycache__
 .vscode/
 test.py
