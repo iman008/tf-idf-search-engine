@@ -7,8 +7,6 @@ import os
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
 
 import string
 
@@ -197,15 +195,12 @@ stopwords_english = set(
 )
 
 
-def custom_tokenizer(filename):
-    f = open(filename, encoding="UTF8")
-    text = f.read()
+def custom_tokenizer(text):
     list_words = re.split(r"\W+", str(text))
-    f.close()
     tokens = [
         word
         for word in list_words
-        if (word.isalpha() or w.replace(".", "").isdigit())
+        if (word.isalpha() or word.replace(".", "").isdigit())
         and len(word) > 1
         and word.lower() not in stopwords_english
     ]
@@ -224,19 +219,17 @@ def match_document(tfidf_matrix, query, vectorizer):
     query_vector = vectorizer.transform([query])
 
     similarities = cosine_similarity(tfidf_matrix, query_vector)
-
-    best_match_index = similarities.argmax()
+    best_match_index = similarities[:-1].argmax()
 
     return best_match_index
 
 
-# send form iman and find it
-documents = []
 
-# from server
-query = ""
 
-tfidf_matrix, vectorizer = compute_tfidf(documents)
-best_match_index = match_document(tfidf_matrix, query, vectorizer)
+def find_best_match_paragraph(query,doc_text):
+    paragraphs=doc_text.split("\n")
+    paragraphs+=[query]
+    tfidf_matrix, vectorizer = compute_tfidf(paragraphs)
+    res=match_document(tfidf_matrix, query, vectorizer)
+    return res
 
-print(f"match paragraph: {documents[best_match_index]}")

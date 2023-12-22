@@ -112,5 +112,6 @@ def search(query_text,doclist):
     end_time=time()
     duration_ms = (end_time - start_time) * 1000
     print(f"Time took to search: {duration_ms:.5f} ms")
+
     return res
 

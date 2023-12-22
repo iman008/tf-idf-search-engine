@@ -3,6 +3,7 @@ from search import search
 import json
 from termcolor import colored
 from time import time
+from FileSearch.TF_IDF_ToFindParagraph import find_best_match_paragraph
 
 if len(sys.argv) != 2:
     print("Usage: python main.py <path_to_data_json>")
@@ -21,8 +22,10 @@ overal_time = 0
 
 for testcase in testcases:
     cnt += 1
-    # if cnt > 500:
+    # if cnt > 100:
     #     break
+
+    
     print("-------------------------------------------")
     print("searching in doc number ", testcase["document_id"])
     start = time()
@@ -36,11 +39,28 @@ for testcase in testcases:
 
     if int(testcase["document_id"]) in check:
         corrects += 1
-        print(colored("PASSED", 'green'))
+        print("found the correct doc:", colored("PASSED", 'green'))
     else:
         wrongs += 1
         wrong.append((testcase["document_id"], testcase["query"], int(ans[0][0])))
-        print(colored("WRONG", 'red'))
+        print("found the correct doc:",colored("WRONG", 'red'))
+
+    f=open("../data/document_"+str(ans[0][0])+".txt",encoding="utf8")
+    doc_text=f.read()
+    selected_par=find_best_match_paragraph(testcase["query"], doc_text)
+    paragraphs=doc_text.split("\n") 
+    if selected_par+1<=len(testcase["is_selected"]):
+        if int(testcase["is_selected"][selected_par]):
+            print("found the correct paragraph:",colored("PASSED", 'green'))
+        else:
+            print("found the correct paragraph:",colored("WRONG", 'red'))
+    else:
+        print("nigg")
+    print("You searched for:",colored(testcase["query"],"blue"))
+    print("The selected paragraph:")
+    print(colored(paragraphs[selected_par]+'\n',"cyan"))
+    f.close()
+
     print("-------------------------------------------")
 
 print("the accuracy is: ", corrects / (corrects + wrongs) * 100)
