@@ -5,4 +5,3 @@ src/*.txt
 *.txt
 src/FileSearch/__pycache__
 .vscode/
-test.py
