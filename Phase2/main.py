@@ -5,7 +5,7 @@ from sklearn.pipeline import make_pipeline
 import pickle
 import gzip
 
-with gzip.open('tfidf_per_doc.pkl.gz', 'rb') as file:
+with gzip.open("tfidf_per_doc.pkl.gz", "rb") as file:
     X = pickle.load(file)
 
 n_clusters = 3
@@ -18,8 +18,8 @@ svd = TruncatedSVD(n_components=2)
 pipeline = make_pipeline(svd)
 X_reduced = pipeline.fit_transform(X)
 
-plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=X_clustered, cmap='viridis', marker='.')
-plt.title('Document Clustering')
-plt.xlabel('Principal Component 1')
-plt.ylabel('Principal Component 2')
+plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=X_clustered, cmap="viridis", marker=".")
+plt.title("Document Clustering")
+plt.xlabel("Principal Component 1")
+plt.ylabel("Principal Component 2")
 plt.show()

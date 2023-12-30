@@ -7,3 +7,4 @@ src/FileSearch/__pycache__
 .vscode/
 Phase2/__pycache__
 *.gz
+*.json

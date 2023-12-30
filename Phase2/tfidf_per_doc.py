@@ -10,6 +10,7 @@ import gzip
 docsPath = "../data/"
 numdocs = 10000
 
+
 def generate_word_doc_dict():
     word_doc_dict = defaultdict(lambda: defaultdict(int))
     for i in tqdm(range(numdocs), desc="Generating word list"):
@@ -18,6 +19,7 @@ def generate_word_doc_dict():
         for w in list_words:
             word_doc_dict[w][i] += 1
     return word_doc_dict
+
 
 def calculate_tfidf(word_doc_dict):
     tfidf_per_doc = {}
@@ -37,24 +39,29 @@ def calculate_tfidf(word_doc_dict):
 
     return tfidf_per_doc
 
+
 def create_sparse_matrix(tfidf_per_doc, all_unique_words):
     word_index_mapping = {word: index for index, word in enumerate(all_unique_words)}
     tfidf_matrices = lil_matrix((numdocs, len(all_unique_words)))
 
-    for i, doc_name in enumerate(tqdm(tfidf_per_doc.keys(), desc="Processing documents")):
+    for i, doc_name in enumerate(
+        tqdm(tfidf_per_doc.keys(), desc="Processing documents")
+    ):
         word_indices = [word_index_mapping[word] for word in tfidf_per_doc[doc_name]]
         tfidf_values = np.fromiter(tfidf_per_doc[doc_name].values(), dtype=float)
-        
+
         tfidf_matrices[i, word_indices] = tfidf_values
 
     return tfidf_matrices
 
+
 def save_tfidf_to_file(tfidf_matrices, filename):
-    with gzip.open(filename, 'wb') as file:
+    with gzip.open(filename, "wb") as file:
         pickle.dump(tfidf_matrices, file)
+
 
 word_doc_dict = generate_word_doc_dict()
 tfidf_per_doc = calculate_tfidf(word_doc_dict)
 all_unique_words = sorted(set(word for doc in tfidf_per_doc.values() for word in doc))
 tfidf_matrices = create_sparse_matrix(tfidf_per_doc, all_unique_words)
-save_tfidf_to_file(tfidf_matrices, 'tfidf_per_doc.pkl.gz')
+save_tfidf_to_file(tfidf_matrices, "tfidf_per_doc.pkl.gz")
