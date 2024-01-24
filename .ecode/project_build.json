@@ -1,0 +1,30 @@
+{
+  "python": {
+    "build": [
+      {
+        "args": "",
+        "command": "python",
+        "working_dir": "/Phase2"
+      }
+    ],
+    "build_types": [],
+    "clean": [
+      {
+        "args": "",
+        "command": "",
+        "working_dir": ""
+      }
+    ],
+    "config": {
+      "clear_sys_env": false
+    },
+    "os": [
+      "windows"
+    ],
+    "output_parser": {
+      "config": {
+        "relative_file_paths": true
+      }
+    }
+  }
+}
