@@ -8,12 +8,12 @@ from scipy.sparse import lil_matrix
 import gzip
 
 docsPath = "../data/"
-numdocs = 10000
+numdocs = range(50001)
 
 
 def generate_word_doc_dict():
     word_doc_dict = defaultdict(lambda: defaultdict(int))
-    for i in tqdm(range(numdocs), desc="Generating word list"):
+    for i in tqdm((numdocs), desc="Generating word list"):
         filename = f"document_{i}.txt"
         list_words = tokenizer(docsPath + filename)
         for w in list_words:
@@ -23,7 +23,7 @@ def generate_word_doc_dict():
 
 def calculate_tfidf(word_doc_dict):
     tfidf_per_doc = {}
-    for i in tqdm(range(numdocs), desc="Calculating TF-IDF"):
+    for i in tqdm((numdocs), desc="Calculating TF-IDF"):
         tfidf_per_doc[i] = {}
         filepath = f"../data/document_{i}.txt"
         tokens = tokenizer(filepath)
@@ -31,7 +31,7 @@ def calculate_tfidf(word_doc_dict):
         for x in tokens:
             if x in word_doc_dict:
                 tf = word_doc_dict[x][i] / di
-                idf = math.log10(numdocs / len(word_doc_dict[x]))
+                idf = math.log10(len(numdocs) / len(word_doc_dict[x]))
                 tfidf_per_doc[i][x] = tf * idf
 
         s = tfidf_per_doc[i]
@@ -42,7 +42,7 @@ def calculate_tfidf(word_doc_dict):
 
 def create_sparse_matrix(tfidf_per_doc, all_unique_words):
     word_index_mapping = {word: index for index, word in enumerate(all_unique_words)}
-    tfidf_matrices = lil_matrix((numdocs, len(all_unique_words)))
+    tfidf_matrices = lil_matrix((len(numdocs), len(all_unique_words)))
 
     for i, doc_name in enumerate(
         tqdm(tfidf_per_doc.keys(), desc="Processing documents")

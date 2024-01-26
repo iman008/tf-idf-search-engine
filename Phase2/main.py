@@ -8,7 +8,7 @@ import gzip
 with gzip.open("tfidf_per_doc.pkl.gz", "rb") as file:
     X = pickle.load(file)
 
-n_clusters = 3
+n_clusters = 6  
 kmeans = KMeans(n_clusters=n_clusters, random_state=42)
 
 # Assuming X is your input data

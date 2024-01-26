@@ -1,7 +1,7 @@
 from tokenizer import tokenizer
 import json
 import math
-
+from tqdm import tqdm
 
 
 # consider i want to calculate tf-idf of document one
@@ -15,8 +15,7 @@ import math
 word_doc_dict=dict(json.loads(open("unique_words.txt").read()))
 tfidf_per_doc={}
 tfidf_norm_per_doc={}
-for i in range(0,50001):
-    print(i)
+for i in tqdm(range(50001), desc="calculating tf-idfs"):
     tfidf_per_doc[i]={}
     filepath="../data/document_"+str(i)+".txt"
     tokens=tokenizer(filepath)
